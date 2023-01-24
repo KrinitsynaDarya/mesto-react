@@ -4,9 +4,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
-import api from '../utils/Api';
 import ImagePopup from './ImagePopup';
-
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState();
@@ -37,7 +35,6 @@ function App() {
   function handleCardClick(card) {
     setSelectedCard(card);
   };
-
 
   return (
     <div className="page">
@@ -74,7 +71,6 @@ function App() {
         </fieldset>
       </PopupWithForm>
     </div>
-
   );
 }
 
