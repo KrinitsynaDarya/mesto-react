@@ -6,14 +6,14 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import api from '../utils/Api';
 import ImagePopup from './ImagePopup';
-import Card from './Card';
+
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState();
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState();
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState();
-  const [selectedCard, setSelectedCard] = React.useState({});
-  const [cards, setCards] = React.useState([]);
+
+
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   };
@@ -33,31 +33,19 @@ function App() {
     setSelectedCard({});
   };
 
+  const [selectedCard, setSelectedCard] = React.useState({});
   function handleCardClick(card) {
     setSelectedCard(card);
   };
 
-  React.useEffect(() => {
-    api.getInitialCards()
-      .then((initialCards) => {
-        setCards(initialCards);
-      })
-      .catch((err) => {
-        //console.log(`Ошибка: ${err}`);
-      })
-  }
-  );
+
   return (
     <div className="page">
       <Header />
-      
-      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
-      <section className="elements">
-        {
-          cards.map((card) => { return (<Card key={card._id} card={card} onCardClick={handleCardClick} />) })
-        }
-      </section>
+      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick}
+        onCardClick={handleCardClick} />
       <Footer />
+      <ImagePopup onClose={closeAllPopups} card={selectedCard}></ImagePopup>
       <PopupWithForm onClose={closeAllPopups} title="Редактировать профиль" name="edit-profile" isOpen={isEditProfilePopupOpen} >
         <fieldset className="popup__input-container">
           <input className="popup__field" id="profile-name" name="name" minLength="2" maxLength="40" noValidate
@@ -85,12 +73,6 @@ function App() {
           <span className="popup__field-error card-link-error"></span>
         </fieldset>
       </PopupWithForm>
-
-      <ImagePopup onClose={closeAllPopups} card={selectedCard}>
-
-      </ImagePopup>
-     
-
     </div>
 
   );
