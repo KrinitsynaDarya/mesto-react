@@ -50,6 +50,14 @@ class Api {
     }).then((res) => this._checkResponse(res));
   }
 
+  changeLikeCardStatus(cardId, isLiked) {
+    if (isLiked) {
+      return this.removeLike(cardId);
+    } else {
+      return this.addLike(cardId);
+    }
+  }
+
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers,
