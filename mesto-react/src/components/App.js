@@ -12,6 +12,7 @@ import api from "../utils/Api";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function App() {
+  console.log("hello");
   const [currentUser, setCurrentUser] = React.useState({});
 
   React.useEffect(() => {
