@@ -8,7 +8,9 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
   const avatarRef = React.useRef();
 
   React.useEffect(() => {
-    avatarRef.current.value = currentUser.avatar;
+    if (isOpen) {
+      avatarRef.current.value = "";
+    }
   }, [isOpen, currentUser.avatar]);
 
   function handleSubmit(e) {
@@ -20,6 +22,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
           .value /* Значение инпута, полученное с помощью рефа */,
     });
   }
+
   return (
     <PopupWithForm
       onClose={onClose}
@@ -39,7 +42,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
           noValidate
           placeholder="Ссылка на картинку"
         />
-        <span className="popup__field-error avatar-link-error"></span>
+        <span className="popup__field-error avatar-link-error" />
       </fieldset>
     </PopupWithForm>
   );

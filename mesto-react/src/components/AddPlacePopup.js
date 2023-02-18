@@ -3,13 +3,12 @@ import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
   const [name, setName] = React.useState("");
+  const [link, setLink] = React.useState("");
 
   // Обработчик изменения инпута обновляет стейт
   function handleNameChange(e) {
     setName(e.target.value);
   }
-
-  const [link, setLink] = React.useState("");
 
   // Обработчик изменения инпута обновляет стейт
   function handleLinkChange(e) {
@@ -25,10 +24,15 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       name,
       link,
     });
-
-    setName("");
-    setLink("");
   }
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setName("");
+      setLink("");
+    }
+  }, [isOpen]);
+
   return (
     <PopupWithForm
       onClose={onClose}
@@ -50,7 +54,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
           required
           placeholder="Название"
         />
-        <span className="popup__field-error card-name-error"></span>
+        <span className="popup__field-error card-name-error" />
         <input
           value={link || ""}
           onChange={handleLinkChange}
@@ -62,7 +66,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
           noValidate
           placeholder="Ссылка на картинку"
         />
-        <span className="popup__field-error card-link-error"></span>
+        <span className="popup__field-error card-link-error" />
       </fieldset>
     </PopupWithForm>
   );

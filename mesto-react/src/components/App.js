@@ -12,8 +12,14 @@ import api from "../utils/Api";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function App() {
-  console.log("hello");
   const [currentUser, setCurrentUser] = React.useState({});
+  const [cards, setCards] = React.useState([]);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
+    React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
+    React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState(null);
 
   React.useEffect(() => {
     api
@@ -22,10 +28,10 @@ function App() {
         setCurrentUser(userData);
       })
       .catch((err) => {
-        //   console.log(`Ошибка: ${err}`);
+        console.log(`Ошибка: ${err}`);
       });
   }, []);
-  const [cards, setCards] = React.useState([]);
+
   React.useEffect(() => {
     api
       .getInitialCards()
@@ -33,7 +39,7 @@ function App() {
         setCards(initialCards);
       })
       .catch((err) => {
-        //console.log(`Ошибка: ${err}`);
+        console.log(`Ошибка: ${err}`);
       });
   }, []);
 
@@ -42,9 +48,16 @@ function App() {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-    });
+    api
+      .changeLikeCardStatus(card._id, isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        );
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
   }
 
   function handleCardDelete(card) {
@@ -54,7 +67,7 @@ function App() {
         setCards(cards.filter((item) => item !== card));
       })
       .catch((err) => {
-        //     console.log(`Ошибка: ${err}`);
+        console.log(`Ошибка: ${err}`);
       });
   }
   function handleUpdateUser(userData) {
@@ -102,12 +115,6 @@ function App() {
       });
   }
 
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
-    React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
-    React.useState(false);
-
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
@@ -121,12 +128,11 @@ function App() {
   }
 
   function closeAllPopups() {
-    setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
   }
 
-  const [selectedCard, setSelectedCard] = React.useState(null);
   function handleCardClick(card) {
     setSelectedCard(card);
   }
@@ -150,7 +156,7 @@ function App() {
             setSelectedCard(null);
           }}
           card={selectedCard}
-        ></ImagePopup>
+        />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}

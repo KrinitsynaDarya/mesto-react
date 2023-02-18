@@ -6,7 +6,7 @@ function PopupWithForm({ name, title, isOpen, onClose, onSubmit, children }) {
           type="button"
           className="popup__close-button"
           onClick={onClose}
-        ></button>
+        />
         <form
           className={`popup__form popup__form_type_${name}`}
           name={name}

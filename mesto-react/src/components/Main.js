@@ -1,5 +1,4 @@
 import React from "react";
-import api from "../utils/Api";
 import Card from "./Card";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
@@ -15,18 +14,6 @@ function Main({
   const currentUser = React.useContext(CurrentUserContext);
   const { name, about, avatar } = currentUser;
 
-  /*const [cards, setCards] = React.useState([]);
-  React.useEffect(() => {
-    api
-      .getInitialCards()
-      .then((initialCards) => {
-        setCards(initialCards);
-      })
-      .catch((err) => {
-        //console.log(`Ошибка: ${err}`);
-      });
-  }, []);*/
-
   return (
     <main className="content">
       <section className="profile">
@@ -35,7 +22,7 @@ function Main({
           className="profile__avatar-button"
           alt="Сменить фото профиля"
           onClick={onEditAvatar}
-        ></button>
+        />
         <div className="profile__info">
           <div className="profile__wrapper">
             <h1 className="profile__name">{name}</h1>
@@ -43,7 +30,7 @@ function Main({
               type="button"
               className="profile__edit-button"
               onClick={onEditProfile}
-            ></button>
+            />
           </div>
           <p className="profile__about">{about}</p>
         </div>
@@ -51,7 +38,7 @@ function Main({
           type="button"
           className="profile__add-button"
           onClick={onAddPlace}
-        ></button>
+        />
       </section>
       <section className="elements">
         {cards.map((card) => {

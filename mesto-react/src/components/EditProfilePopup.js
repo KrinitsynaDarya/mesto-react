@@ -3,21 +3,10 @@ import PopupWithForm from "./PopupWithForm";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
-  const [name, setName] = React.useState("");
-
-  // Обработчик изменения инпута обновляет стейт
-  function handleNameChange(e) {
-    setName(e.target.value);
-  }
-
-  const [description, setDescription] = React.useState("");
-
-  // Обработчик изменения инпута обновляет стейт
-  function handleDescriptionChange(e) {
-    setDescription(e.target.value);
-  }
   // Подписка на контекст
   const currentUser = React.useContext(CurrentUserContext);
+  const [name, setName] = React.useState("");
+  const [description, setDescription] = React.useState("");
 
   // После загрузки текущего пользователя из API
   // его данные будут использованы в управляемых компонентах.
@@ -25,6 +14,16 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     setName(currentUser.name);
     setDescription(currentUser.about);
   }, [currentUser]);
+
+  // Обработчик изменения инпута обновляет стейт
+  function handleNameChange(e) {
+    setName(e.target.value);
+  }
+
+  // Обработчик изменения инпута обновляет стейт
+  function handleDescriptionChange(e) {
+    setDescription(e.target.value);
+  }
 
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
@@ -36,6 +35,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       about: description,
     });
   }
+
   return (
     <PopupWithForm
       onClose={onClose}
@@ -57,7 +57,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
           required
           placeholder="Имя"
         />
-        <span className="popup__field-error profile-name-error"></span>
+        <span className="popup__field-error profile-name-error" />
         <input
           value={description || ""}
           onChange={handleDescriptionChange}
@@ -70,7 +70,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
           required
           placeholder="О себе"
         />
-        <span className="popup__field-error profile-job-error"></span>
+        <span className="popup__field-error profile-job-error" />
       </fieldset>
     </PopupWithForm>
   );
